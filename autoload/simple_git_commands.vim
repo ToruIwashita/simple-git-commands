@@ -50,6 +50,19 @@ fun! simple_git_commands#gsh(bang, option) abort
   endtry
 endf
 
+fun! simple_git_commands#g_reset_all() abort
+  try
+    call s:git_exec('reset', '')
+
+    checktime
+    redraw!
+    echo 'reset.'
+  catch /failed to reset/
+    redraw!
+    echo 'failed to reset.'
+  endtry
+endf
+
 fun! simple_git_commands#g_clean_m() abort
   try
     if confirm('clean not staged files? ', "&Yes\n&No", 0) != 1
