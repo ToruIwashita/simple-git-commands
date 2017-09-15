@@ -50,6 +50,67 @@ fun! simple_git_commands#gsh(bang, option) abort
   endtry
 endf
 
+fun! simple_git_commands#g_clean_m() abort
+  try
+    if confirm('clean not staged files? ', "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    redraw!
+
+    call s:git_exec('checkout', '.')
+
+    checktime
+    redraw!
+    echo 'cleaned.'
+  catch /failed to checkout/
+    redraw!
+    echo 'failed to clean.'
+  endtry
+endf
+
+fun! simple_git_commands#g_clean_u() abort
+  try
+    if confirm('clean untracked files? ', "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    redraw!
+
+    call s:git_exec('clean', '-f')
+
+    checktime
+    redraw!
+    echo 'cleaned.'
+  catch /failed to clean/
+    redraw!
+    echo 'failed to clean.'
+  endtry
+endf
+
+fun! simple_git_commands#g_clean() abort
+  try
+    if confirm('clean all files? ', "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    redraw!
+
+    call s:git_exec('checkout', '.')
+    call s:git_exec('clean', '-f')
+
+    checktime
+    redraw!
+    echo 'cleaned.'
+  catch /failed to checkout/
+    redraw!
+    echo 'failed to clean.'
+  catch /failed to clean/
+    redraw!
+    echo 'failed to clean.'
+  endtry
+endf
+
 fun! simple_git_commands#gll_rebase(base_branch) abort
   try
     let l:current_branch = s:git_exec('symbolic-ref', '--short HEAD')
