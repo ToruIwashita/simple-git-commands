@@ -173,7 +173,7 @@ fun! simple_git_commands#gll_rebase_continue() abort
   checktime
 endf
 
-fun! simple_git_commands#greset_latest() abort
+fun! simple_git_commands#g_reset_latest() abort
   try
     if confirm("reset 'HEAD^'? ", "&Yes\n&No", 0) != 1
       return 1

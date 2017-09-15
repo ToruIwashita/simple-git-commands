@@ -23,7 +23,7 @@ command! -nargs=1 -complete=customlist,simple_git_commands#_branches GllRebase c
 command! GllRebaseContinue call simple_git_commands#gll_rebase_continue()
 command! GllRebaseAbort call simple_git_commands#gll_rebase_abort()
 
-command! GresetLatest call simple_git_commands#greset_latest()
+command! GResetLatest call simple_git_commands#g_reset_latest()
 
 let &cpoptions = s:cpoptions_save
 unlet s:cpoptions_save
