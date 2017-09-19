@@ -50,6 +50,21 @@ fun! simple_git_commands#gsh(bang, option) abort
   endtry
 endf
 
+fun! simple_git_commands#g_add_all() abort
+  try
+    let l:relative_path_to_git_root = s:git_exec('rev-parse', '--show-cdup')
+
+    call s:git_exec('add', l:relative_path_to_git_root.'.')
+
+    checktime
+    redraw!
+    echo 'added.'
+  catch /failed to reset/
+    redraw!
+    echo 'failed to add all.'
+  endtry
+endf
+
 fun! simple_git_commands#g_reset_all() abort
   try
     call s:git_exec('reset', '')
@@ -59,7 +74,7 @@ fun! simple_git_commands#g_reset_all() abort
     echo 'reset.'
   catch /failed to reset/
     redraw!
-    echo 'failed to reset.'
+    echo 'failed to reset all.'
   endtry
 endf
 

@@ -13,6 +13,7 @@ set cpoptions&vim
 command! -bang Gsh call simple_git_commands#gsh(<bang>0, 'plain')
 command! -bang GshForce call simple_git_commands#gsh(<bang>0, 'force')
 
+command! -bang GAddAll call simple_git_commands#g_add_all()
 command! -bang GResetAll call simple_git_commands#g_reset_all()
 
 command! -bang GCleanM call simple_git_commands#g_clean_m()
