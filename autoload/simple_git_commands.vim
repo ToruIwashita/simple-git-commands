@@ -18,7 +18,7 @@ endf
 
 fun! simple_git_commands#gsh(bang, option) abort
   try
-    let l:current_branch = s:git_exec('symbolic-ref', '--short HEAD')
+    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
 
     if a:option ==# 'force'
       let l:comment = "force push '".l:current_branch."' branch"
@@ -41,7 +41,7 @@ fun! simple_git_commands#gsh(bang, option) abort
     call s:git_exec('push', l:push_opt.' origin '.l:current_branch)
     redraw!
     echo 'pushed.'
-  catch /failed to symbolic-ref/
+  catch /failed to rev-parse/
     redraw!
     echo v:exception
   catch /failed to push/
@@ -141,7 +141,7 @@ endf
 
 fun! simple_git_commands#gll_rebase(base_branch) abort
   try
-    let l:current_branch = s:git_exec('symbolic-ref', '--short HEAD')
+    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
 
     if confirm("rebase '".l:current_branch."' against '".a:base_branch."'? ", "&Yes\n&No", 0) != 1
       return 1
@@ -155,7 +155,7 @@ fun! simple_git_commands#gll_rebase(base_branch) abort
     checktime
     redraw!
     echo 'rebased.'
-  catch /failed to symbolic-ref/
+  catch /failed to rev-parse/
     redraw!
     echo v:exception
   catch /failed to pull --rebase/
