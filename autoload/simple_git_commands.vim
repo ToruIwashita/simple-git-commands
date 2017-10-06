@@ -143,7 +143,7 @@ fun! simple_git_commands#gll_rebase(base_branch) abort
   try
     let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
 
-    if confirm("rebase '".l:current_branch."' against '".a:base_branch."'? ", "&Yes\n&No", 0) != 1
+    if confirm("rebase '".l:current_branch."' onto '".a:base_branch."'? ", "&Yes\n&No", 0) != 1
       return 1
     endif
 
@@ -160,7 +160,7 @@ fun! simple_git_commands#gll_rebase(base_branch) abort
     echo v:exception
   catch /failed to pull --rebase/
     redraw!
-    echo "failed to rabase '".l:current_branch."' against '".a:base_branch."'."
+    echo "failed to rabase '".l:current_branch."' onto '".a:base_branch."'."
   endtry
 endf
 
