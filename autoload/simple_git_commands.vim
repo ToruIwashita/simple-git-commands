@@ -43,10 +43,10 @@ fun! simple_git_commands#gsh(bang, option) abort
     echo 'pushed.'
   catch /failed to rev-parse/
     redraw!
-    echo v:exception
+    echoerr v:exception
   catch /failed to push/
     redraw!
-    echo "failed to push '".l:current_branch."' branch."
+    echoerr "failed to push '".l:current_branch."' branch."
   endtry
 endf
 
@@ -61,7 +61,7 @@ fun! simple_git_commands#g_add_all() abort
     echo 'added.'
   catch /failed to reset/
     redraw!
-    echo 'failed to add all.'
+    echoerr 'failed to add all.'
   endtry
 endf
 
@@ -74,7 +74,7 @@ fun! simple_git_commands#g_reset_all() abort
     echo 'reset.'
   catch /failed to reset/
     redraw!
-    echo 'failed to reset all.'
+    echoerr 'failed to reset all.'
   endtry
 endf
 
@@ -93,7 +93,7 @@ fun! simple_git_commands#g_clean_m() abort
     echo 'cleaned.'
   catch /failed to checkout/
     redraw!
-    echo 'failed to clean.'
+    echoerr 'failed to clean.'
   endtry
 endf
 
@@ -112,7 +112,7 @@ fun! simple_git_commands#g_clean_u() abort
     echo 'cleaned.'
   catch /failed to clean/
     redraw!
-    echo 'failed to clean.'
+    echoerr 'failed to clean.'
   endtry
 endf
 
@@ -132,10 +132,10 @@ fun! simple_git_commands#g_clean() abort
     echo 'cleaned.'
   catch /failed to checkout/
     redraw!
-    echo 'failed to clean.'
+    echoerr 'failed to clean.'
   catch /failed to clean/
     redraw!
-    echo 'failed to clean.'
+    echoerr 'failed to clean.'
   endtry
 endf
 
@@ -157,10 +157,10 @@ fun! simple_git_commands#gll_rebase(base_branch) abort
     echo 'rebased.'
   catch /failed to rev-parse/
     redraw!
-    echo v:exception
+    echoerr v:exception
   catch /failed to pull --rebase/
     redraw!
-    echo "failed to rabase '".l:current_branch."' onto '".a:base_branch."'."
+    echoerr "failed to rabase '".l:current_branch."' onto '".a:base_branch."'."
   endtry
 endf
 
@@ -175,7 +175,7 @@ fun! simple_git_commands#gll_rebase_abort() abort
     echo 'aborted.'
   catch
     redraw!
-    echo v:exception
+    echoerr v:exception
   endtry
 endf
 
@@ -200,7 +200,7 @@ fun! simple_git_commands#g_reset_latest() abort
     echo 'reset.'
   catch
     redraw!
-    echo v:exception
+    echoerr v:exception
   endtry
 endf
 
