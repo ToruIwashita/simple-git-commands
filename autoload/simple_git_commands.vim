@@ -59,7 +59,7 @@ fun! simple_git_commands#g_add_all() abort
     checktime
     redraw!
     echo 'added.'
-  catch /failed to reset/
+  catch /failed to add/
     redraw!
     echo 'failed to add all.'
   endtry
