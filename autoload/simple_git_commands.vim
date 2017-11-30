@@ -16,6 +16,10 @@ fun! s:git_exec(cmd, args) abort
   return join(l:results, "\n")
 endf
 
+fun! s:current_branch() abort
+  return s:git_exec('rev-parse', '--abbrev-ref HEAD')
+endf
+
 fun! simple_git_commands#gsh(bang, option) abort
   try
     let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
@@ -201,6 +205,31 @@ fun! simple_git_commands#g_reset_latest() abort
   catch
     redraw!
     echo v:exception
+  endtry
+endf
+
+fun! simple_git_commands#g_delete_all_merged_branch() abort
+  try
+    if confirm('delete all merged branch? ', "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    for l:merged_branch in filter(split(s:git_exec('branch', '--merged')), "v:val !=# '*'")
+      if s:current_branch() ==# l:merged_branch
+        continue
+      endif
+
+      call s:git_exec('branch', '-D '.l:merged_branch)
+    endfor
+
+    redraw!
+    echo 'deleted.'
+  catch /failed to rev-parse/
+    redraw!
+    echoerr 'failed to delete.'
+  catch /failed to branch/
+    redraw!
+    echoerr 'failed to delete.'
   endtry
 endf
 
