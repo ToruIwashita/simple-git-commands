@@ -222,9 +222,6 @@ fun! simple_git_commands#g_delete_all_merged_branch() abort
       call s:git_exec('branch', '-D '.l:merged_branch)
       echo l:merged_branch.' deleted.'
     endfor
-
-    redraw!
-    echo 'deleted.'
   catch /failed to rev-parse/
     redraw!
     echoerr 'failed to delete.'
