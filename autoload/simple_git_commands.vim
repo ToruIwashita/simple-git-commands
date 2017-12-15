@@ -226,9 +226,9 @@ fun! simple_git_commands#g_reset_latest() abort
   endtry
 endf
 
-fun! simple_git_commands#g_delete_all_merged_branch() abort
+fun! simple_git_commands#g_delete_all_merged_branch(bang) abort
   try
-    if confirm('delete all merged branch? ', "&Yes\n&No", 0) != 1
+    if a:bang && confirm('delete all merged branch? ', "&Yes\n&No", 0) != 1
       return 1
     endif
 
@@ -237,8 +237,11 @@ fun! simple_git_commands#g_delete_all_merged_branch() abort
         continue
       endif
 
+      if !a:bang && confirm('delete '.l:merged_branch.' branch? ', "&Yes\n&No", 0) != 1
+        continue
+      endif
+
       call s:git_exec('branch', '-D '.l:merged_branch)
-      echo 'deleted '.l:merged_branch.' branch.'
     endfor
   catch /failed to rev-parse/
     redraw!
