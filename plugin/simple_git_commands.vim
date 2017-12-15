@@ -25,6 +25,7 @@ command! GllRebaseContinue call simple_git_commands#gll_rebase_continue()
 command! GllRebaseAbort call simple_git_commands#gll_rebase_abort()
 
 command! GResetLatest call simple_git_commands#g_reset_latest()
+command! GResetHard call simple_git_commands#g_reset_hard()
 
 command! GDeleteAllMergedBranch call simple_git_commands#g_delete_all_merged_branch()
 

@@ -192,6 +192,24 @@ fun! simple_git_commands#gll_rebase_continue() abort
   checktime
 endf
 
+fun! simple_git_commands#g_reset_hard() abort
+  try
+    if confirm('reset hard? ', "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
+
+    call s:git_exec('reset', '--hard origin/'.l:current_branch)
+
+    redraw!
+    echo 'reset.'
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
 fun! simple_git_commands#g_reset_latest() abort
   try
     if confirm("reset 'HEAD^'? ", "&Yes\n&No", 0) != 1
