@@ -194,7 +194,7 @@ endf
 
 fun! simple_git_commands#g_reset_hard() abort
   try
-    if confirm('reset hard? ', "&Yes\n&No", 0) != 1
+    if confirm("reset 'hard'? ", "&Yes\n&No", 0) != 1
       return 1
     endif
 
@@ -239,7 +239,7 @@ fun! simple_git_commands#g_delete_all_merged_branch(bang) abort
         continue
       endif
 
-      if !a:bang && confirm('delete '.l:merged_branch.' branch? ', "&Yes\n&No", 0) != 1
+      if !a:bang && confirm("delete '".l:merged_branch."' branch? ", "&Yes\n&No", 0) != 1
         continue
       endif
 
