@@ -16,6 +16,17 @@ fun! s:git_exec(cmd, args) abort
   return join(l:results, "\n")
 endf
 
+fun! s:git_async_exec(cmd, exit_msg) abort
+  call job_start('bash -c "git '.a:cmd.' >/dev/null 2>&1"', {
+    \ 'exit_cb': {
+    \   channel, status -> [
+    \     execute('checktime'),
+    \     execute("if ".status." == 0 | echo '".a:exit_msg."' | else | echo 'failed to ".a:cmd.".' | endif", '')
+    \   ]
+    \ }
+  \ })
+endf
+
 fun! s:current_branch() abort
   return s:git_exec('rev-parse', '--abbrev-ref HEAD')
 endf
@@ -42,9 +53,7 @@ fun! simple_git_commands#gsh(bang, option) abort
       echo l:comment.'.'
     endif
 
-    call s:git_exec('push', l:push_opt.' origin '.l:current_branch)
-    redraw!
-    echo 'pushed.'
+    call s:git_async_exec('push '.l:push_opt.' origin '.l:current_branch, 'pushed.')
   catch /failed to rev-parse/
     redraw!
     echo v:exception
