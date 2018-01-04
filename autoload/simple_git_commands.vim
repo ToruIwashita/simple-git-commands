@@ -31,6 +31,12 @@ fun! s:current_branch() abort
   return s:git_exec('rev-parse', '--abbrev-ref HEAD')
 endf
 
+fun! simple_git_commands#insert_current_branch() abort
+  let l:pos = getpos('.')
+  execute ':normal i' . s:current_branch()
+  call setpos('.', l:pos)
+endf
+
 fun! simple_git_commands#gsh(bang, option) abort
   try
     let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')

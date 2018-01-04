@@ -10,6 +10,8 @@ let g:loaded_simple_git_commands = 1
 let s:cpoptions_save = &cpoptions
 set cpoptions&vim
 
+command! InsertCurrentBranch call simple_git_commands#insert_current_branch()
+
 command! -bang Gsh call simple_git_commands#gsh(<bang>0, 'plain')
 command! -bang GshForce call simple_git_commands#gsh(<bang>0, 'force')
 
