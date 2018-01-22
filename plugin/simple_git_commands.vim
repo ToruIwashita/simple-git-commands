@@ -29,7 +29,5 @@ command! GllRebaseAbort call simple_git_commands#gll_rebase_abort()
 command! GResetLatest call simple_git_commands#g_reset_latest()
 command! GResetHard call simple_git_commands#g_reset_hard()
 
-command! -bang GDeleteAllMergedBranch call simple_git_commands#g_delete_all_merged_branch(<bang>0)
-
 let &cpoptions = s:cpoptions_save
 unlet s:cpoptions_save
