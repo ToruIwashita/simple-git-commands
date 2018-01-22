@@ -241,36 +241,6 @@ fun! simple_git_commands#g_reset_latest() abort
   endtry
 endf
 
-fun! simple_git_commands#g_delete_all_merged_branch(bang) abort
-  try
-    if a:bang && confirm('delete all merged branch? ', "&Yes\n&No", 0) != 1
-      return 1
-    endif
-
-    call s:git_exec('fetch', '--prune')
-
-    for l:merged_branch in filter(split(s:git_exec('branch', '--merged')), "v:val !=# '*'")
-      if s:current_branch() ==# l:merged_branch
-        continue
-      endif
-
-      if !a:bang && confirm("delete '".l:merged_branch."' branch? ", "&Yes\n&No", 0) != 1
-        continue
-      endif
-
-      call s:git_exec('branch', '-D '.l:merged_branch)
-    endfor
-
-    redraw!
-  catch /failed to rev-parse/
-    redraw!
-    echoerr 'failed to delete.'
-  catch /failed to branch/
-    redraw!
-    echoerr 'failed to delete.'
-  endtry
-endf
-
 fun! simple_git_commands#_branches(...) abort
   return filter(filter(split(s:git_exec('branch', '--no-color')), "v:val !=# '*'"), 'v:val =~ "^'.fnameescape(a:1).'"')
 endf
