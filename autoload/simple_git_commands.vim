@@ -31,7 +31,7 @@ fun! s:current_branch() abort
   return s:git_exec('rev-parse', '--abbrev-ref HEAD')
 endf
 
-fun! simple_git_commands#insert_current_branch() abort
+fun! simple_git_commands#g_insert_current_branch() abort
   let l:pos = getpos('.')
   execute ':normal i' . s:current_branch()
   call setpos('.', l:pos)
@@ -39,7 +39,7 @@ endf
 
 fun! simple_git_commands#gsh(bang, option) abort
   try
-    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
+    let l:current_branch = s:current_branch()
 
     if a:option ==# 'force'
       let l:comment = "force push '".l:current_branch."' branch"
@@ -160,7 +160,7 @@ endf
 
 fun! simple_git_commands#gll_rebase(base_branch) abort
   try
-    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
+    let l:current_branch = s:current_branch()
 
     if confirm("rebase '".l:current_branch."' onto '".a:base_branch."'? ", "&Yes\n&No", 0) != 1
       return 1
@@ -213,9 +213,7 @@ fun! simple_git_commands#g_reset_hard() abort
       return 1
     endif
 
-    let l:current_branch = s:git_exec('rev-parse', '--abbrev-ref HEAD')
-
-    call s:git_exec('reset', '--hard origin/'.l:current_branch)
+    call s:git_exec('reset', '--hard origin/'.s:current_branch())
 
     redraw!
     echo 'reset.'
