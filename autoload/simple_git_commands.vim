@@ -35,9 +35,9 @@ fun! simple_git_commands#g_current_branch()
   return s:current_branch()
 endf
 
-fun! simple_git_commands#g_insert_current_branch() abort
+fun! simple_git_commands#g_append_current_branch() abort
   let l:pos = getpos('.')
-  execute ':normal i' . s:current_branch()
+  execute ':normal a' . s:current_branch()
   call setpos('.', l:pos)
 endf
 
