@@ -31,6 +31,10 @@ fun! s:current_branch() abort
   return s:git_exec('rev-parse', '--abbrev-ref HEAD')
 endf
 
+fun! s:latest_commit() abort
+  return s:git_exec('log', "--pretty=format:'[%h]%s\n' --max-count=1")
+endf
+
 fun! simple_git_commands#g_current_branch()
   return s:current_branch()
 endf
@@ -211,13 +215,13 @@ fun! simple_git_commands#gll_rebase_continue() abort
   checktime
 endf
 
-fun! simple_git_commands#g_reset_hard() abort
+fun! simple_git_commands#g_reset_hard_latest() abort
   try
-    if confirm("reset 'hard'? ", "&Yes\n&No", 0) != 1
+    if confirm("reset hard '".s:latest_commit()."' commit? ", "&Yes\n&No", 0) != 1
       return 1
     endif
 
-    call s:git_exec('reset', '--hard origin/'.s:current_branch())
+    call s:git_exec('reset', '--hard HEAD^')
 
     redraw!
     echo 'reset.'
@@ -227,13 +231,29 @@ fun! simple_git_commands#g_reset_hard() abort
   endtry
 endf
 
-fun! simple_git_commands#g_reset_latest() abort
+fun! simple_git_commands#g_reset_mixed_latest() abort
   try
-    if confirm("reset 'HEAD^'? ", "&Yes\n&No", 0) != 1
+    if confirm("reset mixed '".s:latest_commit()."' commit? ", "&Yes\n&No", 0) != 1
       return 1
     endif
 
-    call s:git_exec('reset', 'HEAD^')
+    call s:git_exec('reset', '--mixed HEAD^')
+
+    redraw!
+    echo 'reset.'
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
+fun! simple_git_commands#g_reset_soft_latest() abort
+  try
+    if confirm("reset soft '".s:latest_commit()."' commit? ", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    call s:git_exec('reset', '--soft HEAD^')
 
     redraw!
     echo 'reset.'

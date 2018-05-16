@@ -26,8 +26,9 @@ command! -nargs=1 -complete=customlist,simple_git_commands#_branches GllRebase c
 command! GllRebaseContinue call simple_git_commands#gll_rebase_continue()
 command! GllRebaseAbort call simple_git_commands#gll_rebase_abort()
 
-command! GResetLatest call simple_git_commands#g_reset_latest()
-command! GResetHard call simple_git_commands#g_reset_hard()
+command! GResetHardLatest call simple_git_commands#g_reset_hard_latest()
+command! GResetMixedLatest call simple_git_commands#g_reset_mixed_latest()
+command! GResetSoftLatest call simple_git_commands#g_reset_soft_latest()
 
 let &cpoptions = s:cpoptions_save
 unlet s:cpoptions_save
