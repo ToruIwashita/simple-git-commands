@@ -26,6 +26,8 @@ command! -nargs=1 -complete=customlist,simple_git_commands#_branches GllRebase c
 command! GllRebaseContinue call simple_git_commands#gll_rebase_continue()
 command! GllRebaseAbort call simple_git_commands#gll_rebase_abort()
 
+command! GRecoverLatestRemote call simple_git_commands#g_recover_latest_remote()
+
 command! GResetHardLatest call simple_git_commands#g_reset_hard_latest()
 command! GResetMixedLatest call simple_git_commands#g_reset_mixed_latest()
 command! GResetSoftLatest call simple_git_commands#g_reset_soft_latest()
