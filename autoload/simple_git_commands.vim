@@ -215,6 +215,24 @@ fun! simple_git_commands#gll_rebase_continue() abort
   checktime
 endf
 
+fun! simple_git_commands#g_recover_latest_remote() abort
+  try
+    let l:current_branch = s:current_branch()
+
+    if confirm("recover latest of remote '".l:current_branch."' branch? ", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    call s:git_exec('reset', '--hard origin/'.l:current_branch)
+
+    redraw!
+    echo 'recovered.'
+  catch
+    redraw!
+    echo v:exception
+  endtry
+endf
+
 fun! simple_git_commands#g_reset_hard_latest() abort
   try
     if confirm("reset hard '".s:latest_commit()."' commit? ", "&Yes\n&No", 0) != 1
