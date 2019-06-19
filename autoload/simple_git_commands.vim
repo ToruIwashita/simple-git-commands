@@ -223,6 +223,7 @@ fun! simple_git_commands#g_recover_latest_remote() abort
       return 1
     endif
 
+    call s:git_exec('fetch', '')
     call s:git_exec('reset', '--hard origin/'.l:current_branch)
 
     redraw!
