@@ -132,7 +132,7 @@ fun! simple_git_commands#g_clean_u() abort
 
     redraw!
 
-    call s:git_exec('clean', '-f')
+    call s:git_exec('clean', '-d -f')
 
     checktime
     redraw!
@@ -152,7 +152,7 @@ fun! simple_git_commands#g_clean() abort
     redraw!
 
     call s:git_exec('checkout', '.')
-    call s:git_exec('clean', '-f')
+    call s:git_exec('clean', '-d -f')
 
     checktime
     redraw!
