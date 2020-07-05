@@ -191,7 +191,38 @@ fun! simple_git_commands#gll_rebase(base_branch) abort
   endtry
 endf
 
-fun! simple_git_commands#gll_rebase_abort() abort
+fun! simple_git_commands#grebase(...) abort
+  try
+    let l:current_branch = s:current_branch()
+
+    if a:0
+      let rebase_target = a:1
+    else
+      let rebase_target = 'origin/HEAD'
+    endif
+
+    if confirm("rebase '".l:current_branch."' onto '".rebase_target."'? ", "&Yes\n&No", 0) != 1
+      return 1
+    endif
+
+    redraw!
+    echo "rebasing '".l:current_branch."' branch."
+
+    call s:git_exec('rebase', rebase_target)
+
+    checktime
+    redraw!
+    echo 'rebased.'
+  catch /failed to rev-parse/
+    redraw!
+    echo v:exception
+  catch /failed to rebase/
+    redraw!
+    echo "failed to rabase '".l:current_branch."' onto '".rebase_target."'."
+  endtry
+endf
+
+fun! simple_git_commands#grebase_abort() abort
   try
     redraw!
 
@@ -206,7 +237,7 @@ fun! simple_git_commands#gll_rebase_abort() abort
   endtry
 endf
 
-fun! simple_git_commands#gll_rebase_continue() abort
+fun! simple_git_commands#grebase_continue() abort
   redraw!
   echo 'continue rebasing.'
 
